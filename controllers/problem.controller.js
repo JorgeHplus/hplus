@@ -18,3 +18,19 @@ exports.createProblema = async (req, res) => {
         res.status(500).json({ message: 'Error al crear el problema' });
     }
 };
+
+exports.deleteProblema = async (req, res) =>{
+    const { id } = req.params;
+    try{
+        const result = await Problema.delete(id);
+        if (result.affectedRows === 0){
+            return res.status(404).json({message: "Problema no encontrado"})
+        }
+        res.status(200).json({message: "Problema eliminado correctamente"})
+    }catch(error){
+        console.error("Error al eliminar problema: ", error)
+        res.status(500).json({message:"Error al eliminar problema: ", error})
+    }
+
+
+}

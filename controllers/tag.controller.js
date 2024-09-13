@@ -18,3 +18,17 @@ exports.createTag = async (req, res) => {
         res.status(500).json({ message: 'Error al crear el tag' });
     }
 };
+
+exports.deleteTag = async (req, res) => {
+    const { id } = req.params; // Obtenemos el ID de la Tag desde los parámetros de la URL
+    try {
+        const result = await Tag.delete(id); // Llamamos a la función que elimina la Tag
+        if (result.affectedRows === 0) {
+            return res.status(404).json({ message: 'Tag no encontrado' });
+        }
+        res.status(200).json({ message: 'Tag eliminado correctamente' });
+    } catch (error) {
+        console.error('Error al eliminar Tag:', error);
+        res.status(500).json({ message: 'Error al eliminar Tag', error });
+    }
+};
