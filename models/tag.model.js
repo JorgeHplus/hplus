@@ -9,7 +9,7 @@ class Tag {
   static async getById(id_tag) {
     // Consulta para obtener una categoría por su ID
     const [rows] = await db.query("SELECT * FROM Tags WHERE id_tag = ?", [
-      id_categoria,
+      id_tag,
     ]);
 
     // Si no encuentra la categoría, devuelve null
