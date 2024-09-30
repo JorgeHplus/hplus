@@ -2,14 +2,16 @@ const db = require("../config/db");
 
 class Categoria {
   static async getAll() {
-    const [rows] = await db.query("SELECT * FROM Categorias");
+    const [rows] = await db.query(
+      "SELECT c.nombre, c.descripcion, c.fecha_creacion FROM Categorias c"
+    );
     return rows;
   }
 
   static async getById(id_categoria) {
     // Consulta para obtener una categoría por su ID
     const [rows] = await db.query(
-      "SELECT * FROM Categorias WHERE id_categoria = ?",
+      "SELECT c.nombre, c.descripcion, c.fecha_creacion FROM Categorias c WHERE id_categoria = ?",
       [id_categoria]
     );
 

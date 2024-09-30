@@ -16,7 +16,7 @@ exports.getById = async (req, res) => {
     if (result.affectedRows === 0) {
       return res.status(404).json({ message: "Problema no encontrado" });
     }
-    res.status(200).json({ message: "Problema encontrado correctamente" });
+    res.status(200).json(result);
   } catch (error) {
     console.error("Error al encontrar el Problema:", error);
     res.status(500).json({ message: "Error al encontrar el Problema", error });
