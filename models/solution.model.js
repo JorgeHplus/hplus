@@ -32,7 +32,12 @@ class Solucion {
     };
   }
 
-  static async create(id_problema, descripcion, pasos_detallados, imagenes) {
+  static async create(
+    id_problema,
+    descripcion,
+    pasos_detallados,
+    imagenes = []
+  ) {
     const connection = await db.getConnection(); // Obtener una conexión
     try {
       await connection.beginTransaction(); // Iniciar transacción
@@ -46,18 +51,20 @@ class Solucion {
       const id_solucion = result.insertId;
 
       // Insertar las imágenes asociadas a la solución
-      for (const imagen of imagenes) {
-        await connection.query(
-          "INSERT INTO Imagenes_Soluciones (id_solucion, nombre_imagen) VALUES (?, ?)",
-          [id_solucion, imagen]
-        );
+      if (imagenes.length > 0) {
+        for (const imagen of imagenes) {
+          await connection.query(
+            "INSERT INTO Imagenes_Soluciones (id_solucion, nombre_imagen) VALUES (?, ?)",
+            [id_solucion, imagen]
+          );
+        }
       }
 
       await connection.commit(); // Confirmar la transacción
       return id_solucion;
     } catch (error) {
       await connection.rollback(); // Revertir en caso de error
-      console.error("Error al crear la solución: ", error.message); // Log del error
+      console.error("Error al crear la solución: ", error.message);
       throw error;
     } finally {
       connection.release(); // Liberar la conexión
@@ -65,9 +72,9 @@ class Solucion {
   }
 
   static async delete(id_solucion) {
-    const connection = await db.getConnection(); // Obtener una conexión
+    const connection = await db.getConnection();
     try {
-      await connection.beginTransaction(); // Iniciar transacción
+      await connection.beginTransaction();
 
       // Eliminar primero las imágenes asociadas a la solución
       await connection.query(
@@ -81,14 +88,14 @@ class Solucion {
         [id_solucion]
       );
 
-      await connection.commit(); // Confirmar la transacción
+      await connection.commit();
       return result;
     } catch (error) {
-      await connection.rollback(); // Revertir en caso de error
-      console.error("Error al eliminar la solución: ", error.message); // Log del error
+      await connection.rollback();
+      console.error("Error al eliminar la solución: ", error.message);
       throw error;
     } finally {
-      connection.release(); // Liberar la conexión
+      connection.release();
     }
   }
 }

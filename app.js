@@ -17,7 +17,7 @@ app.use("/api/categorias", categoriaRoutes);
 app.use("/api/problemas", problemaRoutes);
 app.use("/api/soluciones", solucionRoutes);
 app.use("/api/tags", tagRoutes);
-
+app.use("/uploads", express.static("uploads"));
 // Puerto
 const PORT = process.env.PORT || 3000;
 
